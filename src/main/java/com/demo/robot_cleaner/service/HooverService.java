@@ -1,5 +1,6 @@
 package com.demo.robot_cleaner.service;
 
+import com.demo.robot_cleaner.exception.OutOfBoundsException;
 import com.demo.robot_cleaner.model.Hoover;
 import com.demo.robot_cleaner.model.HooverRequest;
 import com.demo.robot_cleaner.model.HooverResponse;
@@ -7,8 +8,14 @@ import com.demo.robot_cleaner.model.Room;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Service
 public class HooverService {
+
+    private static final Logger logger = LoggerFactory.getLogger(HooverService.class);
+
 
     private final MovementService movementService;
     private final CleaningService cleaningService;
@@ -20,6 +27,7 @@ public class HooverService {
     }
 
     public HooverResponse processHooverMovement(HooverRequest request) {
+        logger.info("Processing hoover movement request");
         validateRequest(request);
 
         Room room = new Room(request.getRoomSize(), request.getPatches());
@@ -29,32 +37,28 @@ public class HooverService {
 
         for (char instruction : request.getInstructions().toCharArray()) {
             movementService.moveHoover(instruction, hoover, room);
-
             if (cleaningService.cleanDirt(room, hoover)) {
                 dirtCleaned++;
             }
         }
-
+        logger.info("Hoover movement completed. Final position: [{}, {}], Patches cleaned: {}",
+                hoover.getX(), hoover.getY(), dirtCleaned);
         return new HooverResponse(hoover.getCoords(), dirtCleaned);
     }
 
     private void validateRequest(HooverRequest request) {
-        if (request.getRoomSize()[0] <= 0 || request.getRoomSize()[1] <= 0) {
-            throw new IllegalArgumentException("Room size must be positive");
-        }
-
-        if (request.getCoords()[0] < 0 || request.getCoords()[1] < 0 ||
-                request.getCoords()[0] >= request.getRoomSize()[0] ||
-                request.getCoords()[1] >= request.getRoomSize()[1]) {
-            throw new IllegalArgumentException("Initial hoover position is outside the room");
+        if (isOutOfBounds(request.getCoords(), request.getRoomSize())) {
+            throw new OutOfBoundsException("Initial hoover position is outside the room");
         }
 
         for (int[] patch : request.getPatches()) {
-            if (patch[0] < 0 || patch[1] < 0 ||
-                    patch[0] >= request.getRoomSize()[0] ||
-                    patch[1] >= request.getRoomSize()[1]) {
-                throw new IllegalArgumentException("Dirt patch position is outside the room");
+            if (isOutOfBounds(patch, request.getRoomSize())) {
+                throw new OutOfBoundsException("Dirt patch position is outside the room");
             }
         }
+    }
+
+    private boolean isOutOfBounds(int[] coords, int[] roomSize) {
+        return coords[0] < 0 || coords[1] < 0 || coords[0] >= roomSize[0] || coords[1] >= roomSize[1];
     }
 }

@@ -22,6 +22,10 @@ public class Room {
         return dirtPatches.remove(new DirtPatch(x, y));
     }
 
+    public boolean isWithinBounds(int x, int y) {
+        return x >= 0 && x < width && y >= 0 && y < height;
+    }
+
     public int getWidth() {
         return width;
     }
