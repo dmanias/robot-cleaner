@@ -1,78 +1,59 @@
-# Spring Boot App Installation Guide
+# Robot Cleaner Installation Guide
 
-This guide provides instructions for installing and running a Spring Boot application on Linux and macOS systems.
+This guide provides instructions for installing and running the Robot Cleaner Spring Boot application from https://github.com/dmanias/robot-cleaner.git.
 
 ## Prerequisites
 
-- Java Development Kit (JDK) 11 or higher
-- Maven (for building the application)
+- Java Development Kit (JDK) 17 or higher
+- Maven 3.6 or higher
 
-## Linux Installation
+## Installation Steps (for Windows, Linux, and macOS)
 
-1. Install Java:
-   ```bash
-   sudo apt update
-   sudo apt install default-jdk
+1. Clone the repository:
    ```
-
-2. Install Maven:
-   ```bash
-   sudo apt install maven
-   ```
-
-3. Clone your Spring Boot application repository:
-   ```bash
    git clone https://github.com/dmanias/robot-cleaner.git
-   cd <your-app-directory>
+   cd robot-cleaner
    ```
 
-4. Build the application:
-   ```bash
-   mvn clean package
+2. Build the application:
+   ```
+   mvn clean install
    ```
 
-5. Run the application:
-   ```bash
-   java -jar target/<your-app-name>.jar
+3. Run the application:
+   ```
+   mvn spring-boot:run
    ```
 
-## macOS Installation
+## Usage
 
-1. Install Homebrew (if not already installed):
-   ```bash
-   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-   ```
+Once the application is running, you can access the API endpoints using a tool like cURL, Postman, or your web browser.
 
-2. Install Java:
-   ```bash
-   brew install openjdk
-   ```
+The main endpoint for cleaning instructions is:
 
-3. Install Maven:
-   ```bash
-   brew install maven
-   ```
+```
+POST http://localhost:8080/api/hoover/navigate
+```
 
-4. Clone your Spring Boot application repository:
-   ```bash
-   git clone <your-repo-url>
-   cd <your-app-directory>
-   ```
+You need to send a JSON payload with the room dimensions, starting position, and cleaning instructions. For example:
 
-5. Build the application:
-   ```bash
-   mvn clean package
-   ```
+```json
+{
+  "roomSize" : [5, 5],
+  "coords" : [1, 2],
+  "patches" : [
+    [1, 0],
+    [2, 2],
+    [2, 3]
+  ],
+  "instructions" : "NNESEESWNWW"
+}
+```
 
-6. Run the application:
-   ```bash
-   java -jar target/<your-app-name>.jar
-   ```
+The application will return the final position of the robot and the number of cleaned patches.
 
 ## Additional Notes
 
-- Replace `<your-repo-url>` with the actual URL of your Git repository.
-- Replace `<your-app-directory>` with the name of your application's directory.
-- Replace `<your-app-name>.jar` with the actual name of your compiled JAR file.
-
-To run the application as a background service, consider using systemd on Linux or launchd on macOS.
+- Make sure you have the correct Java version installed. This project requires Java 17.
+- If you encounter any issues, check the project's README.md file for additional information or requirements.
+- For development purposes, you can use the embedded H2 database. For production, you might want to configure a different database in the application.properties file.
