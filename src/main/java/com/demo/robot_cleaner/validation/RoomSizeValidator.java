@@ -5,6 +5,9 @@ import jakarta.validation.ConstraintValidatorContext;
 
 public class RoomSizeValidator implements ConstraintValidator<ValidRoomSize, int[]> {
     @Override
+    public void initialize(ValidRoomSize constraintAnnotation) {}
+
+    @Override
     public boolean isValid(int[] roomSize, ConstraintValidatorContext context) {
         if (roomSize == null || roomSize.length != 2) {
             return false;

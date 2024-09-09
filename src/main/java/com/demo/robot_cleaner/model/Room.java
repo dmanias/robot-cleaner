@@ -1,8 +1,12 @@
 package com.demo.robot_cleaner.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 
 public class Room {
     private final int width;
@@ -32,5 +36,9 @@ public class Room {
 
     public int getHeight() {
         return height;
+    }
+
+    public Set<DirtPatch> getDirtPatches() {
+        return dirtPatches;
     }
 }

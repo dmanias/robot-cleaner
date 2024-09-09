@@ -2,7 +2,7 @@ package com.demo.robot_cleaner.model;
 
 import lombok.Getter;
 
-@Getter
+
 public class HooverResponse {
     private final int[] coords;
     private final int patches;
@@ -19,5 +19,4 @@ public class HooverResponse {
     public int getPatches() {
         return patches;
     }
-
 }
