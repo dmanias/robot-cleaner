@@ -7,7 +7,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-
+@Getter
+@Setter
 public class Room {
     private final int width;
     private final int height;
@@ -28,17 +29,5 @@ public class Room {
 
     public boolean isWithinBounds(int x, int y) {
         return x >= 0 && x < width && y >= 0 && y < height;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public Set<DirtPatch> getDirtPatches() {
-        return dirtPatches;
     }
 }

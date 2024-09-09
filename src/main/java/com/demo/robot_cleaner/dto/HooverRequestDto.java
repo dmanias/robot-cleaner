@@ -5,8 +5,13 @@ import com.demo.robot_cleaner.validation.ValidCoordinates;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import jakarta.validation.constraints.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.List;
 
+@Getter
+@Setter
 public class HooverRequestDto {
     @Schema(description = "Room size as [width, height]", example = "[5, 5]")
     @ValidRoomSize
@@ -24,38 +29,4 @@ public class HooverRequestDto {
     @NotNull(message = "Instructions are required")
     @Pattern(regexp = "^[NSEW]+$", message = "Instructions must only contain N, S, E, or W")
     private String instructions;
-
-    // Getters and setters
-
-    public int[] getRoomSize() {
-        return roomSize;
-    }
-
-    public void setRoomSize(int[] roomSize) {
-        this.roomSize = roomSize;
-    }
-
-    public int[] getCoords() {
-        return coords;
-    }
-
-    public void setCoords(int[] coords) {
-        this.coords = coords;
-    }
-
-    public List<int[]> getPatches() {
-        return patches;
-    }
-
-    public void setPatches(List<int[]> patches) {
-        this.patches = patches;
-    }
-
-    public String getInstructions() {
-        return instructions;
-    }
-
-    public void setInstructions(String instructions) {
-        this.instructions = instructions;
-    }
 }

@@ -17,7 +17,7 @@ public class WebSecurityConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/api/**")
-                        .allowedOrigins("https://trusted-frontend.com")
+                        .allowedOrigins("https://trusted-frontend.com", "http://localhost:8080")
                         .allowedMethods("GET", "POST")
                         .allowedHeaders("Content-Type");
             }

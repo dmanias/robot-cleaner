@@ -1,8 +1,7 @@
-package com.demo.robot_cleaner;
+package com.demo.robot_cleaner.service;
 
 import com.demo.robot_cleaner.model.HooverRequest;
 import com.demo.robot_cleaner.model.HooverResponse;
-import com.demo.robot_cleaner.service.HooverService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -67,5 +66,49 @@ class HooverServiceIntegrationTest {
 
         assertEquals(1, response.getPatches(),
                 "The hoover should have cleaned 1 patch of dirt at its starting position");
+    }
+
+    @Test
+    void testHooverMovementWithNoPatches() {
+        // Arrange
+        int[] roomSize = new int[]{3, 3};
+        int[] initialHooverCoords = new int[]{0, 0};
+        List<int[]> patches = List.of();
+        String instructions = "NENE";
+
+        HooverRequest request = new HooverRequest(roomSize, initialHooverCoords, patches, instructions);
+
+        // Act
+        HooverResponse response = hooverService.processHooverMovement(request);
+
+        // Assert
+        assertArrayEquals(new int[]{2, 2}, response.getCoords(),
+                "The final coordinates of the hoover should be [2, 2]");
+        assertEquals(0, response.getPatches(),
+                "The hoover should not have cleaned any patches of dirt");
+    }
+
+    @Test
+    void testHooverMovementWithAllPatches() {
+        // Arrange
+        int[] roomSize = new int[]{3, 3};
+        int[] initialHooverCoords = new int[]{0, 0};
+        List<int[]> patches = List.of(
+                new int[]{0, 0},
+                new int[]{1, 1},
+                new int[]{2, 2}
+        );
+        String instructions = "NENENE";
+
+        HooverRequest request = new HooverRequest(roomSize, initialHooverCoords, patches, instructions);
+
+        // Act
+        HooverResponse response = hooverService.processHooverMovement(request);
+
+        // Assert
+        assertArrayEquals(new int[]{2, 2}, response.getCoords(),
+                "The final coordinates of the hoover should be [2, 2]");
+        assertEquals(3, response.getPatches(),
+                "The hoover should have cleaned all 3 patches of dirt");
     }
 }

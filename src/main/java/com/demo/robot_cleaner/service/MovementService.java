@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class MovementService {
 
-    public void moveHoover(char direction, Hoover hoover, Room room) {
+    public Hoover moveHoover(char direction, Hoover hoover, Room room) {
         int newX = hoover.getX();
         int newY = hoover.getY();
 
@@ -30,5 +30,6 @@ public class MovementService {
 
         hoover.setX(newX);
         hoover.setY(newY);
+        return hoover;
     }
 }

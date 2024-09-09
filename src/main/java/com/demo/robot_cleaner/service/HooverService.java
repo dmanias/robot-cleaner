@@ -16,7 +16,6 @@ public class HooverService {
 
     private static final Logger logger = LoggerFactory.getLogger(HooverService.class);
 
-
     private final MovementService movementService;
     private final CleaningService cleaningService;
 
@@ -35,8 +34,13 @@ public class HooverService {
 
         int dirtCleaned = 0;
 
+        // Clean the initial position if there's dirt
+        if (cleaningService.cleanDirt(room, hoover)) {
+            dirtCleaned++;
+        }
+
         for (char instruction : request.getInstructions().toCharArray()) {
-            movementService.moveHoover(instruction, hoover, room);
+            hoover = movementService.moveHoover(instruction, hoover, room);
             if (cleaningService.cleanDirt(room, hoover)) {
                 dirtCleaned++;
             }
