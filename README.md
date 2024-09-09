@@ -102,7 +102,10 @@ This project demonstrates best practices in Spring Boot development, focusing on
 - Layered architecture for better separation of concerns
 - Comprehensive testing with JUnit and Mockito
 - Logging with SLF4J and Logback
-- Security measures including input validation, CORS configuration, and rate limiting
+- Basic security measures including:
+    - Input validation
+    - CORS configuration
+    - Rate limiting
 
 For more details on the architectural decisions, refer to the project documentation.
 

@@ -40,9 +40,8 @@ This project implements a RESTful API for controlling a robot cleaner, showcasin
 * **Input Validation**: Strict validation to prevent injection attacks.
 * **CORS Configuration**: Restricting API access to trusted domains.
 * **Rate Limiting**: Preventing API abuse with request rate limits.
-* **Security Headers**: Implementing HTTP security headers including Content Security Policy.
-* **HTTPS Enforcement**: Ensuring all communications are encrypted.
-* **Dependency Management**: Regular updates and vulnerability scanning of dependencies.
+
+Note: While the current implementation includes these basic security measures, additional security features such as comprehensive security headers, HTTPS enforcement, and regular dependency vulnerability scanning are recommended for production environments.
 
 ### Advanced Concepts
 
@@ -51,4 +50,4 @@ This project implements a RESTful API for controlling a robot cleaner, showcasin
 
 ## Conclusion
 
-This project serves as a demonstration of best practices in Spring Boot development, focusing on modularity, testability, and security. It provides a solid foundation for scalable and maintainable microservices architecture.
+This project serves as a demonstration of best practices in Spring Boot development, focusing on modularity, testability, and basic security measures. It provides a foundation for scalable and maintainable microservices architecture, with the potential for further enhancements in security and other areas as needed for production environments.
